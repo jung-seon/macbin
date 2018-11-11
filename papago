@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+if [ $# -eq 0 ] ; then 
+    printf "\n    NO TEXT \a\n\n" 
+    exit 1
+fi
+
+echo
+curl -s "https://openapi.naver.com/v1/language/translate" \
+-H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" \
+-H "X-Naver-Client-Id: AOBObh9lMmVuIHGhSFuj" \
+-H "X-Naver-Client-Secret: 1rSmWH4v9w"  \
+-d "source=en&target=ko&text=$( echo $@ )" | cut -d: -f7 | cut -d, -f1 | sed 's/"//g'
+echo

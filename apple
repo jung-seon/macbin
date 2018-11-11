@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+if ! [ -z "$1" ] ; then 
+    msg="$1"
+else
+    msg=$(</dev/stdin)
+fi
+
+
+if ! [ -z "$2" ] ; then 
+    title="$2"
+else
+    title="Title"
+fi
+
+osascript -e "display notification \"$msg\" with title \"$title\" sound name \"Submarine\""
+

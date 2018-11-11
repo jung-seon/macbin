@@ -1,0 +1,6 @@
+#   | |           "MaxCapacity" = 7275
+#   | |           "CurrentCapacity" = 3570
+#   | |           "LegacyBatteryInfo" = {"Amperage"=3824,"Flags"=7,"Capacity"=7275,"Current"=3570,"Voltage"=7683,"Cycle Count"=28}
+#   | |           "DesignCapacity" = 7150
+
+ioreg -l | grep -i capacity | grep -v Legacy | tr '\n' ' | ' | awk '{printf(" Battery : %.2f%%\n", $10/$15 * 100)}'

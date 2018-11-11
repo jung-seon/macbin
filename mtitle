@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+
+f=/tmp/mplayer.log
+
+#LC_CTYPE
+# iconv -f cp949 -t utf-8
+
+if ! [ -f $f ] ; then 
+    printf "\n\t :::No $f File \n\n"
+    exit 1 
+fi 
+
+#t="$( awk -F'=' '/ICY Info/{print $2}' $f | LC_ALL=C cut -d';' -f1 | LC_ALL=C sed "s/\'//g" | uniq )"
+
+~/bin/apple "$( tail -n 1 $f )" Mukul &
+

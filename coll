@@ -1,0 +1,15 @@
+keyword="$1"
+if [ -z "$1" ] ; then
+    echo "insert search word"
+    exit 1
+fi
+
+word="$( echo ${1:0:1} | tr '[a-z]' '[A-Z]' )${1:1}"
+
+f=/tmp/.coll
+
+wget -q -O $f https://www.collinsdictionary.com/dictionary/english/$word
+cat $f | grep '^<div class="def"' | sed -n 's/<[^>]*>//g p'
+echo 
+echo
+cat $f | grep type-example | sed 's/<[^>]*>//g'

@@ -1,0 +1,75 @@
+#! /usr/bin/env python2.7
+
+from NeuroPy import NeuroPy 
+import time
+import os
+from datetime import datetime
+import matplotlib.pyplot as plt
+import numpy as np
+from optparse import OptionParser
+import sys
+
+logfile = '/tmp/log_of_brain'
+
+attes = []
+medis = []
+parser = OptionParser()
+parser.add_option("-a",action="store_true", default=False, help='alert 10 below attention wave')
+parser.add_option("-f",action="store_true", default=False, \
+                                            help='load brain log file %s' % logfile )
+options, remainder = parser.parse_args()
+
+def fwrite(medis,attes):
+    m = np.array(medis)
+    a = np.array(attes)
+    print np.mean(m)
+    print np.mean(a)     
+    with open(logfile, 'w') as f:
+        f.write( ''.join([str(i)+"," for i in medis]))
+        f.write('\n')
+        f.write( ''.join([str(i)+"," for i in attes]))
+
+def plshow():
+    plt.plot(attes, 'blue' )
+    plt.plot(medis, 'red' )
+    plt.show()
+
+def dingdong():
+    os.system('afplay /System/Library/Sounds/Pop.aiff')
+
+if options.f :
+   with open( logfile ) as f:
+       lines = f.readlines()
+       medis = [ int(val) for val in lines[0].split(',')[:-1]]
+       attes = [ int(val) for val in lines[1].split(',')[:-1]]
+       plshow()
+       exit()
+
+brain = NeuroPy('/dev/tty.MindWaveMobile-DevA-5')
+brain.start()
+
+try:
+    idx = 0 
+    while True:
+        medi = brain.meditation
+        atte = brain.attention
+        print idx, medi, ",", atte
+        if medi != 0 :
+            medis.append(medi)
+            attes.append(atte)
+        if options.a and  atte < 10 and atte != 0 :
+            dingdong()
+            time.sleep(1)
+        time.sleep( 1 )
+        idx = idx + 1 
+        if idx % 1200 == 0  :
+            dingdong()
+except KeyboardInterrupt:
+    brain.stop()
+    fwrite(medis,attes)
+    plshow()
+finally:
+    brain.stop()
+
+#plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+

@@ -1,0 +1,37 @@
+
+#http://m4u.saycast.com
+#http://djsr.saycast.com
+
+if [ -z $1 ] || [ $1 -eq 1 ] ; then
+    title=Mukul
+    url=mms://mukulcast.com
+elif [ $1 -eq 2 ] ; then
+    title=M4U
+    url=http://m4u.saycast.com
+elif [ $1 -eq 3 ] ; then
+    title="DJ SuRan"
+    url=http://djsr.saycast.com
+fi
+
+echo $url
+
+#
+#sed multi command
+#https://stackoverflow.com/questions/13111633/write-mplayers-output-to-fifo-and-read-it/13114501#13114501
+#
+mplayer $url  2>/dev/null |
+    gsed -une " /ICY/{
+                      s/;.*//;
+                      s/.*=//;
+                      s/'//g;
+                      p;
+    }" | iconv -f cp949 -t utf-8 > /tmp/mplayer.log &
+
+#
+#read from stdin
+#https://stackoverflow.com/questions/6980090/how-to-read-from-a-file-or-stdin-in-bash
+#
+tail -n 1 -f /tmp/mplayer.log | while read line
+do
+  osascript -e "display notification \"$line\" with title \"$title\" "
+done < "${2:-/dev/stdin}" & 

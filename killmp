@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+jid=$( ps aux | fgrep mplayer | fgrep -v grep | awk 'NR=1{print $2}' )
+tailid=$( ps aux | fgrep tail | fgrep -v grep | awk 'NR=1{print $2}' )
+echo $jid 1>/dev/stderr
+
+if ! [ -z "$jid" ] ; then 
+    kill -9 $jid
+    #if [ -f /tmp/mplayer.log ] ; then 
+    #    rm /tmp/mplayer.log 2>/dev/null 1>&2
+    #fi
+else
+    echo
+    echo ::: THERE IS NO SUCH JOB ID 1> /dev/stderr
+    echo
+fi

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+f=~/bin/.weight.log
+
+if [ -z "$1" ] ; then 
+    tail -n 10 $f
+    exit 0
+fi
+
+echo $( date +%Y%m%d ) $1 >> $f
+tail -n 10 $f
+
+source isConnectedInternet
+
+rsync $f paycheck:bin/ &
