@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+b=$(  curl -s -u '$id:$passwd' https://api.pinnacle.com/v1/client/balance ) 
+
+balance=$( echo $b | jq '.availableBalance' )
+standing=$( echo $b | jq '.outstandingTransactions' )
+
+echo
+printf "Balance  :\t%'.0f\n"  $balance
+printf "Standing :\t%s\n" $standing
+echo
+
+
+
+#| sed 's/[{}"]//g;s/:/ /g' | awk -F, '{print "\n"$1"\n"$2"\n"$3"\n"$4 }' |  column -t
+#{"availableBalance":0.0,"outstandingTransactions":0.0,"givenCredit":0.0,"currency":"KRW"}
