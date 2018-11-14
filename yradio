@@ -1,1 +1,1 @@
-youtube-dl -qf worstaudio -o - $1 | mplayer -really-quiet - 2>/dev/null & 
+youtube-dl -qf worstaudio $1 | mplayer -really-quiet - 2>/dev/null & 
