@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 d=$( echo $( date +%d ) % 3 | bc )
-td=$( date +%d%m )
+td=$( date +%m%d )
 filename=MacAir_bin_$( echo $d )_.tar.gz
 
 tar -czf /tmp/$filename ~/bin/. 2>/dev/null 1>&2 
