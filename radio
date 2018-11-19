@@ -2,6 +2,12 @@
 #http://m4u.saycast.com
 #http://djsr.saycast.com
 
+if [ "${1:0:4}" == "http" ] ; then
+    echo y
+    https://www.youtube.com/watch?v=QCuq0_nY3Xk
+    mplayer "$1" 2>/dev/null 
+fi
+
 if [ -z $1 ] || [ $1 -eq 1 ] ; then
     title=Mukul
     url=mms://mukulcast.com

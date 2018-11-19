@@ -1,0 +1,18 @@
+# leitner="$( ls -1 ~/RVImages > /tmp/RVImageslist; echo /tmp/RVImageslist )" 
+targetlists=/tmp/RVImageslist
+
+if ! [ -f $targetlists ] ; then 
+    printf "\nThere is not exist $targetlists file \n\n\a"
+    exit 1
+fi
+
+lnum=$( awk 'END{ print NR }' $targetlists )
+randomnumber=$(( $RANDOM %  $lnum  ))   
+
+newname=R$( printf "%04d" ${RANDOM:0:4} ).jpg
+orgname=$( sed -n "$randomnumber p" $targetlists | cut -d, -f1 )
+
+cp /Users/jungseon/RVImages/$orgname /tmp/$newname
+echo $orgname $newname $ctime >> /tmp/rvimagescopy.logx
+
+echo $newname

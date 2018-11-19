@@ -1,0 +1,20 @@
+
+targetnumber=R$( printf "%04d" ${RANDOM:0:4} )
+
+copy_files="$( ~/bin/RVI2tmp  ; ~/bin/RVI2tmp  )"
+random=( $( echo "UP\nDOWN" | sort -R ) )
+
+echo $* > /tmp/$targetnumber.match
+echo "\n\n"
+
+idx=0
+for i in $copy_files ; do 
+    echo $i is ${random[$idx]} >> /tmp/$targetnumber.match
+    idx=$(( $idx + 1 ))
+done
+
+echo $targetnumber
+
+#making fake image 
+~/bin/RVI2tmp 1>/dev/null
+~/bin/RVI2tmp 1>/dev/null
