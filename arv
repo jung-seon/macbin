@@ -1,5 +1,5 @@
 
-targetnumber=R$( printf "%04d" ${RANDOM:0:4} )
+targetnumber=$( genrnd ) #R$( printf "%04d" ${RANDOM:0:4} )
 
 copy_files="$( ~/bin/RVI2tmp  ; ~/bin/RVI2tmp  )"
 random=( $( echo "UP\nDOWN" | sort -R ) )

@@ -9,7 +9,7 @@ fi
 lnum=$( awk 'END{ print NR }' $targetlists )
 randomnumber=$(( $RANDOM %  $lnum  ))   
 
-newname=R$( printf "%04d" ${RANDOM:0:4} ).jpg
+newname=$( genrnd ).jpg #R$( printf "%04d" ${RANDOM:0:4} ).jpg
 orgname=$( sed -n "$randomnumber p" $targetlists | cut -d, -f1 )
 
 cp /Users/jungseon/RVImages/$orgname /tmp/$newname
