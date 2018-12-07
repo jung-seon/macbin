@@ -1,20 +1,25 @@
-
 targetnumber=$( genrnd ) #R$( printf "%04d" ${RANDOM:0:4} )
+sleep 1 
 
-copy_files="$( ~/bin/RVI2tmp  ; ~/bin/RVI2tmp  )"
+copy_files="$( ~/bin/RVI2tmp  ; sleep 1 ;  ~/bin/RVI2tmp  )"
 random=( $( echo "UP\nDOWN" | sort -R ) )
 
-echo $* > /tmp/$targetnumber.match
+echo "$*" >> /tmp/$targetnumber.match
 echo "\n\n"
 
 idx=0
 for i in $copy_files ; do 
-    echo $i is ${random[$idx]} >> /tmp/$targetnumber.match
+    echo "$i is ${random[$idx]}" >> /tmp/$targetnumber.match 
+    echo "$i is ${random[$idx]}" >> /tmp/rvimagescopy.logx
     idx=$(( $idx + 1 ))
 done
 
-echo $targetnumber
+echo $targetnumber 
 
 #making fake image 
+sleep 1
 ~/bin/RVI2tmp 1>/dev/null
+sleep 1
+~/bin/RVI2tmp 1>/dev/null
+sleep 1
 ~/bin/RVI2tmp 1>/dev/null
